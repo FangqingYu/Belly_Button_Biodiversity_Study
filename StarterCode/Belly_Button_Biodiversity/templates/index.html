@@ -7,15 +7,25 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Flask Plotlyjs Example</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="shortcut icon" href="">
 </head>
 
 <style>
   .container {
-    width: 80vw;
+    width: 90vw;
     grid-column-gap: 1vw;
   }
- 
- 
+  /*#pie {
+    border-style: solid;
+    border-color: #f2f2f2;
+  }
+  #gauge {
+    border-style: solid;
+    border-color: #f2f2f2;
+  }*/
+ #border {
+   border-bottom: 5px solid #f2f2f2;
+ }
 </style>
 
 <body>
@@ -27,7 +37,7 @@
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
-    <div class="row">
+    <div class="row" id="border">
       <div class="col-md-2">
         <div class="well">
           <h5>SELECT Sample:</h5>
@@ -48,12 +58,19 @@
       </div>
     </div>
 
-  <div class="row">
+  <div class="row" id="border">
     <div class="col-md-12">
       <div id="bubble", class="center"></div>
     </div>
   </div>
+  <!--
+  <div class="row" id="border">
+      <div class="col-md-12">
+        <div id="scatter", class="center"></div>
+      </div>
+    </div>
 </div>
+-->
   <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

@@ -98,5 +98,20 @@ def samples(sample):
     return jsonify(data)
 
 
+@app.route("/count")
+def count():
+    """Return sum for sample id"""
+
+    stmt = db.session.query(Samples).statement
+    df = pd.read_sql_query(stmt, db.session.bind).iloc[:,2:].sum()
+    
+    count = {}
+    for i in range(0, len(df)):
+        count[df.index[i]] = df[i]
+    
+    return jsonify(count)
+        
+
+    
 if __name__ == "__main__":
     app.run(debug=True)

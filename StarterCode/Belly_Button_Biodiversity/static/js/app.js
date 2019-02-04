@@ -20,6 +20,7 @@ function buildMetadata(sample) {
     
     // BONUS: Build the Gauge Chart
     buildGauge(metaData.WFREQ);
+    
   });  
 }
 
@@ -105,8 +106,17 @@ function buildCharts(sample) {
       hoverinfo: otu_labels.slice(0, 10)
     }];
     var layout2 = {
+      title: {
+        text: '<b>Top 10 Biodiversity</b><br>% Count'
+      },
       height: 500,
-      width: 700
+      width: 650,
+      margin: {
+        l: 2,
+        r: 0,
+        b: 8,
+        pad: 4
+      }
     };
     Plotly.newPlot("pie", data2, layout2);
     
@@ -135,22 +145,20 @@ function buildGauge(level) {
 
   var data = [{ type: 'scatter',
     x: [0], y:[0],
-      marker: {size: 28, color:'850000'},
+      marker: {size: 30, color:'850000'},
       showlegend: false,
       name: 'speed',
       text: level,
       hoverinfo: 'text+name'},
-    { values: [50/6, 50/6, 50/6, 50/6, 50/6, 50/6, 50],
+    { values: [50/10, 50/10, 50/10, 50/10, 50/10, 50/10, 50/10, 50/10, 50/10, 50/10, 50],
     rotation: 90,
-    text: ['9-10', '7-9', '5-7', '4-5', '2-4', '0-2', ''],
+    text: ['9-10','8-9','7-8','6-7','5-6', '4-5', '3-4', '2-3', '1-2', '0-1', ''],
   
     textinfo: 'text',
     textposition:'inside',
-    marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
-                          'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
-                          'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
-                          'rgba(255, 255, 255, 0)']},
-    labels: ['9-10', '7-9', '5-7', '4-5', '2-4', '0-2', ''],
+    marker: {colors:['rgb(38, 115, 38)', 'rgb(51, 153, 51)', 'rgb(57, 172, 57)', 'rgb(64, 191, 64)', 'rgb(83, 198, 83)',
+                     'rgb(102, 204, 102)', 'rgb(121, 210, 121)', 'rgb(140, 217, 140)', 'rgb(179, 230, 179)', 'rgb(236, 249, 236)','rgb(255, 255, 255)']},
+    labels: ['9-10','8-9','7-8','6-7','5-6', '4-5', '3-4', '2-3', '1-2', '0-1', ''],
     hoverinfo: 'label',
     hole: .5,
     type: 'pie',
@@ -166,9 +174,15 @@ function buildGauge(level) {
           color: '850000'
         }
       }],
-    title: '<b>Belly Button Washing Frequency<b><br>Scrubs per Week',
-    height: 500,
-    width: 500,
+    title: '<b>Belly Button Washing Frequency</b><br>Scrubs per Week',
+    height: 600,
+    width: 450,
+    margin: {
+      l: 2,
+      r: 0,
+      b: 0,
+      pad: 4
+    },
     xaxis: {zeroline:false, showticklabels:false,
               showgrid: false, range: [-1, 1]},
     yaxis: {zeroline:false, showticklabels:false,
@@ -178,8 +192,6 @@ function buildGauge(level) {
 
   Plotly.newPlot('gauge', data, layout);
 }
-
-
 
 
 
@@ -202,8 +214,10 @@ function init() {
     buildCharts(firstSample);
     buildMetadata(firstSample);
 
-
   });
+
+  // Build scatter plot
+  //buildScatter();
 }
 
 function optionChanged(newSample) {
@@ -214,3 +228,89 @@ function optionChanged(newSample) {
 
 // Initialize the dashboard
 init();
+
+
+
+
+
+
+
+
+
+//EXTRA
+function buildScatter() {
+  // Get keys from count summery
+  d3.json("/count").then(data => {
+    console.log(data);
+    keys = Object.keys(data);
+    count = Object.values(data);
+
+    //  d3.json(`/metadata/${Number(keys[1])}`).then(metaData => {
+    //    console.log(metaData.WFREQ);
+    //  })
+
+    freqs = []
+
+    for(var i=0; i<keys.length; i++) {
+      d3.json(`/metadata/${Number(keys[i])}`).then(metaData => {
+        //console.log(metaData.WFREQ);
+        //console.log(metaData);
+        if(metaData.sample){
+          freqs.push(metaData.WFREQ)
+        }
+        else{
+          freqs.push(null)
+        }
+      }) 
+    }
+    //console.log()
+    //console.log(freqs);
+    console.log(count);
+    console.log(freqs);
+
+    //delete null values 
+    new_freqs = []
+    new_count = []
+    new_keys = []
+    for(var i=0; i<count.length; i++) {
+      if(freqs[i]) {
+        new_freq.push(freqs[i])
+        new_count.push(count[i])
+        new_keys.push(keys[i])      
+      }
+    }
+    console.log(new_count);
+    console.log(new_freqs);
+
+    // Build scatter plot Count v.s. WFREQ
+    var trace = {
+      x: new_freqs,
+      y: new_count,
+      text: new_keys,
+      mode: 'markers',
+      marker: {
+        //color: colors,
+        size:  new_count
+      },
+      type: 'scatter'
+    };
+    var data = [trace];
+    var layout = {
+      showlegend: false,
+      xaxis: {
+        title: {
+          text: 'WASH FRQUENCY'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'COUNT'
+        }
+      },
+      height: 600,
+      width: 1500
+    }
+    Plotly.newPlot("scatter", data, layout);
+    
+  })
+}
