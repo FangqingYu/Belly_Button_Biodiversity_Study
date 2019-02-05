@@ -66,8 +66,8 @@ Flask app is deployed through Heroku.
 * Contains SQLAlchemy queries that obtain data from sample database and distribute them in JSON format into different Flask routes
 
 * Data can be accessed by visiting corresbonding routes
-** "/names"  - display a list of all sample IDs
-** "/metadata/<sample>"  -  display information of subject for a given samle ID
-** "/samples/<sample>" -  display biodiveristy growth for a given sample ID
-** "/count"  -  dispaly total number count of bacteria growth per sample ID
+ * "/names"  - display a list of all sample IDs
+ * "/metadata/<sample>"  -  display information of subject for a given samle ID
+ * "/samples/<sample>" -  display biodiveristy growth for a given sample ID
+ * "/count"  -  dispaly total number count of bacteria growth per sample ID
 
