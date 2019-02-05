@@ -103,7 +103,9 @@ function buildCharts(sample) {
       values: sample_values.slice(0,10),
       labels: otu_ids.slice(0,10),
       type: 'pie',
-      hoverinfo: otu_labels.slice(0, 10)
+      //text: hover_text.slice(0,10),
+      hovertext: hover_text.slice(0,10),
+      hoverinfo: 'percent+text'
     }];
     var layout2 = {
       title: {
