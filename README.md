@@ -2,6 +2,8 @@
 
 ![Bacteria by filterforge.com](Images/bacteria_by_filterforgedotcom.jpg)
 
+Visit app at https://bellybutton-biodiversity-study.herokuapp.com/
+
 This web application features an interactive dashboard to explore the [Belly Button Biodiversity DataSet](http://robdunnlab.com/projects/belly-button-biodiversity/).
 
 * sample metadata from the route `/metadata/<sample>`of selected sample is displayed 
